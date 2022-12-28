@@ -1,0 +1,42 @@
+{% load i18n %}
+{% load static %}
+<!DOCTYPE html>
+<html>
+<head>
+ <body bgcolor="#000" background="{{ STATIC_URL}}/static/img/fon.png">
+  <meta charset="utf-8" />
+  <title>{% block title %}{% trans "XOУМИ" %}{% endblock %}</title>
+  <link href="{% static "css/base.css" %}" rel="stylesheet">
+  <link rel="icon" type="image/x-icon" href="{{ STATIC_URL}}/static/logo/img.png">
+</head>
+<body>
+  <div id="header">
+  </div>
+  </div>
+  <div id="subheader">
+    <a href="/"><img  class="logo" src="{{ STATIC_URL}}/static/logo/logo.png" style="width: 200px; height: 40px;"></a>    
+    <div class="cart">
+      {% with total_items=cart|length %}
+          {% if cart|length > 0 %}
+            {% trans "Корзина" %}
+            <img  class="logo" src="{{ STATIC_URL}}/static/img/bas.png" style="width: 40px; height: 40px;"></a> 
+            <a href="{% url "cart:cart_detail" %}"> 
+              {% blocktrans with total_items_plural=total_items|pluralize  total_price=cart.get_total_price %}
+                {{ total_items }} item{{ total_items_plural }},
+                ${{ total_price }}
+              {% endblocktrans %}
+            </a>
+          {% else %}
+          {% trans "Корзина" %}
+          <a href="/cart"><img  class="logo" src="{{ STATIC_URL}}/static/img/bask.png" style="width: 40px; height: 40px;"></a> 
+          <a href="{% url "cart:cart_detail" %}"></a>
+            {% endif %}
+        {% endwith %}
+    </div>
+  </div>
+  <div id="content">
+    {% block content %}
+    {% endblock %}
+  </div>
+</body>
+</html>
